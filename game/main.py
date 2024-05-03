@@ -4,22 +4,22 @@ import random
 import time
 
 
-async def blink(canvas, row, column, symbol='*'):
+async def blink(canvas, row, column, symbol='*', max_delay=4):
     while True:
         canvas.addstr(row, column, symbol, curses.A_DIM)
-        for _ in range(10):
+        for _ in range(random.randint(1, max_delay)):
             await asyncio.sleep(0)
 
         canvas.addstr(row, column, symbol)
-        for _ in range(3):
+        for _ in range(random.randint(1, max_delay)):
             await asyncio.sleep(0)
 
         canvas.addstr(row, column, symbol, curses.A_BOLD)
-        for _ in range(5):
+        for _ in range(random.randint(1, max_delay)):
             await asyncio.sleep(0)
 
         canvas.addstr(row, column, symbol)
-        for _ in range(3):
+        for _ in range(random.randint(1, max_delay)):
             await asyncio.sleep(0)
 
 
@@ -28,17 +28,12 @@ def draw(canvas: curses.window):
     canvas.border()
     size = canvas.getmaxyx()
     symbols = '+*.:'
-    # canvas.addstr(random.randint(1, size[0]), random.randint(1, size[1]), str(size))
-    # canvas.refresh()
-    # time.sleep(10)
 
     coroutines = [blink(canvas,
                         random.randint(1, size[0] - 2),
                         random.randint(1, size[1] - 2),
                         symbol=random.choice(symbols)) for _ in range(500)]
 
-    # coroutines = [blink(canvas, 5, (i + 1) * 5) for i in range(10)]
-    #
     while True:
         for coroutine in coroutines:
             coroutine.send(None)
