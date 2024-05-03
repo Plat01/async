@@ -23,17 +23,39 @@ def draw(canvas: curses.window):
     canvas.border()
     row, column = (5, 5,)
 
-    i = 0
     coroutine = blink(canvas, row, column)
-    while True:
-        try:
-            coroutine.send(None)
-            # print(i := i + 1)
-            # canvas.addstr(row, column, str(i), curses.A_BOLD)
-            canvas.refresh()
-            time.sleep(0.5)
-        except StopIteration:
-            break
+    # while True:
+    #     try:
+    #         coroutine.send(None)
+    #         canvas.refresh()
+    #         time.sleep(0.5)
+    #     except StopIteration:
+    #         break
+
+    # canvas.addstr(row, column, "*", curses.A_DIM)
+    coroutine.send(None)
+    canvas.refresh()
+    time.sleep(2)
+
+    # canvas.addstr(row, column, "*")
+    coroutine.send(None)
+    canvas.refresh()
+    time.sleep(.3)
+
+    # canvas.addstr(row, column, "*", curses.A_BOLD)
+    coroutine.send(None)
+    canvas.refresh()
+    time.sleep(.5)
+
+    # canvas.addstr(row, column, "*")
+    coroutine.send(None)
+    canvas.refresh()
+    time.sleep(.3)
+
+    canvas.clear()
+    canvas.border()
+    canvas.refresh()
+    time.sleep(30)
 
 
 if __name__ == '__main__':
