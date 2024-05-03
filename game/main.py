@@ -21,41 +21,14 @@ async def blink(canvas, row, column, symbol='*'):
 def draw(canvas: curses.window):
     curses.curs_set(False)
     canvas.border()
-    row, column = (5, 5,)
 
-    coroutine = blink(canvas, row, column)
-    # while True:
-    #     try:
-    #         coroutine.send(None)
-    #         canvas.refresh()
-    #         time.sleep(0.5)
-    #     except StopIteration:
-    #         break
+    coroutines = [blink(canvas, 5, (i + 1) * 5) for i in range(5)]
 
-    # canvas.addstr(row, column, "*", curses.A_DIM)
-    coroutine.send(None)
-    canvas.refresh()
-    time.sleep(2)
-
-    # canvas.addstr(row, column, "*")
-    coroutine.send(None)
-    canvas.refresh()
-    time.sleep(.3)
-
-    # canvas.addstr(row, column, "*", curses.A_BOLD)
-    coroutine.send(None)
-    canvas.refresh()
-    time.sleep(.5)
-
-    # canvas.addstr(row, column, "*")
-    coroutine.send(None)
-    canvas.refresh()
-    time.sleep(.3)
-
-    canvas.clear()
-    canvas.border()
-    canvas.refresh()
-    time.sleep(30)
+    while True:
+        for coroutine in coroutines:
+            coroutine.send(None)
+        canvas.refresh()
+        time.sleep(0.5)
 
 
 if __name__ == '__main__':
