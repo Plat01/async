@@ -3,6 +3,8 @@ import curses
 import random
 import time
 
+from animation import fire
+
 
 async def blink(canvas, row, column, symbol='*', max_delay=4):
     while True:
@@ -21,36 +23,6 @@ async def blink(canvas, row, column, symbol='*', max_delay=4):
         canvas.addstr(row, column, symbol)
         for _ in range(random.randint(1, max_delay)):
             await asyncio.sleep(0)
-
-
-async def fire(canvas, start_row, start_column, rows_speed=-0.3, columns_speed=0):
-    """Display animation of gun shot, direction and speed can be specified."""
-
-    row, column = start_row, start_column
-
-    canvas.addstr(round(row), round(column), '*')
-    await asyncio.sleep(0)
-
-    canvas.addstr(round(row), round(column), 'O')
-    await asyncio.sleep(0)
-    canvas.addstr(round(row), round(column), ' ')
-
-    row += rows_speed
-    column += columns_speed
-
-    symbol = '-' if columns_speed else '|'
-
-    rows, columns = canvas.getmaxyx()
-    max_row, max_column = rows - 1, columns - 1
-
-    curses.beep()
-
-    while 0 < row < max_row and 0 < column < max_column:
-        canvas.addstr(round(row), round(column), symbol)
-        await asyncio.sleep(0)
-        canvas.addstr(round(row), round(column), ' ')
-        row += rows_speed
-        column += columns_speed
 
 
 def draw(canvas: curses.window):
@@ -78,7 +50,8 @@ def draw(canvas: curses.window):
             time.sleep(0.1)
         except StopIteration:
             break
-        time.sleep(10)
+
+    time.sleep(1)
 
 
 if __name__ == '__main__':
