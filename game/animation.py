@@ -1,5 +1,13 @@
 import asyncio
 import curses
+from curses_tools import draw_frame
+
+
+with open('./game/rocket_frames/rocket_frame_1.txt', 'r') as f:
+    FRAME_1 = f.read()
+
+with open('./game/rocket_frames/rocket_frame_2.txt') as f:
+    FRAME_2 = f.read()
 
 
 async def animate_spaceship(canvas: curses.window,
@@ -8,7 +16,16 @@ async def animate_spaceship(canvas: curses.window,
                             rows_speed=-0.3,
                             columns_speed=0) -> None:
     """Animate spaceship movement"""
-    pass
+
+    while True:
+        draw_frame(canvas, start_row, start_column, FRAME_1)
+        await asyncio.sleep(0)
+
+        draw_frame(canvas, start_row, start_column, FRAME_1, negative=True)
+        draw_frame(canvas, start_row, start_column, FRAME_2)
+        await asyncio.sleep(0)
+        draw_frame(canvas, start_row, start_column, FRAME_2, negative=True)
+
 
 
 async def fire(canvas, start_row, start_column, rows_speed=-0.3, columns_speed=0):
@@ -39,3 +56,7 @@ async def fire(canvas, start_row, start_column, rows_speed=-0.3, columns_speed=0
         canvas.addstr(round(row), round(column), ' ')
         row += rows_speed
         column += columns_speed
+
+
+if __name__ == '__main__':
+    print(FRAME_1, FRAME_2, sep='\n')

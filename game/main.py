@@ -3,7 +3,7 @@ import curses
 import random
 import time
 
-from animation import fire
+from animation import animate_spaceship
 
 
 async def blink(canvas, row, column, symbol='*', max_delay=4):
@@ -37,10 +37,14 @@ def draw(canvas: curses.window):
                         random.randint(1, column_max_canvas),
                         symbol=random.choice(symbols)) for _ in range(100)]
 
-    coroutines.append(fire(canvas,
-                           row_max_canvas,
-                           10,
-                           ))
+    # coroutines.append(fire(canvas,
+    #                        row_max_canvas,
+    #                        10,
+    #                        ))
+
+    coroutines.append(animate_spaceship(canvas,
+                                        random.randint(1, row_max_canvas),
+                                        random.randint(1, column_max_canvas)))
 
     while True:
         try:
