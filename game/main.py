@@ -4,6 +4,7 @@ import random
 import time
 
 from animation import animate_spaceship
+from curses_tools import read_controls
 
 
 async def blink(canvas, row, column, symbol='*', max_delay=4):
@@ -44,7 +45,11 @@ def draw(canvas: curses.window):
 
     coroutines.append(animate_spaceship(canvas,
                                         random.randint(1, row_max_canvas),
-                                        random.randint(1, column_max_canvas)))
+                                        random.randint(1, column_max_canvas),
+                                        row_max_canvas,
+                                        column_max_canvas,
+                                        2,
+                                        1))
 
     while True:
         try:
