@@ -21,30 +21,28 @@ async def animate_spaceship(canvas: curses.window,
     canvas.nodelay(True)
 
     row, column = start_row, start_column
+
+    frames = [FRAME_1, FRAME_1, FRAME_2, FRAME_2]
     while True:
-        row_shift, column_shift, space = read_controls(canvas)
-        if row > rows:
-            row = 0
-        elif row <= 0:
-            row = rows
-        else:
-            row += row_shift * rows_speed
-        if column > columns:
-            column = 0
-        elif column <= 0:
-            column = columns
-        else:
-            column += column_shift * columns_speed
-        canvas.addstr(1, 1, f'{row}, {column}, {space}')
+        for frame in frames:
 
-        draw_frame(canvas, row, column, FRAME_1)
-        await asyncio.sleep(0)
+            row_shift, column_shift, space = read_controls(canvas)
+            if row > rows:
+                row = 0
+            elif row <= 0:
+                row = rows
+            else:
+                row += row_shift * rows_speed
+            if column > columns:
+                column = 0
+            elif column <= 0:
+                column = columns
+            else:
+                column += column_shift * columns_speed
 
-        draw_frame(canvas, row, column, FRAME_1, negative=True)
-        draw_frame(canvas, row, column, FRAME_2)
-        await asyncio.sleep(0)
-        draw_frame(canvas, row, column, FRAME_2, negative=True)
-
+            draw_frame(canvas, row, column, frame)
+            await asyncio.sleep(0)
+            draw_frame(canvas, row, column, frame, negative=True)
 
 
 async def fire(canvas, start_row, start_column, rows_speed=-0.3, columns_speed=0):

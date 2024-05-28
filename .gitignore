@@ -3,4 +3,6 @@
 .idea
 tests
 
+show_spaceship.py
+
 *.pyc
