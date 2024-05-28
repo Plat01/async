@@ -5,4 +5,6 @@ tests
 
 show_spaceship.py
 
+__pycache__
+
 *.pyc
