@@ -8,3 +8,5 @@ show_spaceship.py
 __pycache__
 
 *.pyc
+
+main.py

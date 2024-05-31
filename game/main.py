@@ -3,8 +3,18 @@ import curses
 import random
 import time
 
-from animation import animate_spaceship
-from curses_tools import read_controls
+from animation import animate_spaceship, fly_garbage
+
+import os
+
+path_to_folder = 'game/garbage'
+
+all_files = os.listdir(path_to_folder)
+
+GARBAGE = []
+for file in [file_name for file_name in all_files if file_name.endswith('.txt')]:
+    with open(f'{path_to_folder}/{file}', 'r') as f:
+        GARBAGE.append(f.read())
 
 
 async def blink(canvas, row, column, symbol='*', max_delay=4, offset_tics=(2, 1, 2, 4)):
@@ -51,10 +61,18 @@ def draw(canvas: curses.window):
                                         2,
                                         1))
 
+    coroutines.append(fly_garbage(
+        canvas,
+        column=3,
+        garbage_frame=GARBAGE[0],
+    ))
+
     while True:
         for coroutine in coroutines.copy():  # now its don't missed coroutines?
             try:
                 coroutine.send(None)
+            except RuntimeError:
+                coroutines.remove(coroutine)
             except StopIteration:
                 continue
         canvas.refresh()
